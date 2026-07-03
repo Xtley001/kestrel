@@ -1,0 +1,29 @@
+# WireGuard server configuration — co-location server (Equinix NY5 or equivalent)
+# grey paper Section 11: Dashboard access restricted to WireGuard tunnel.
+# Dashboard binds to 10.0.0.1:3000 — never to public interface.
+#
+# Copy to /etc/wireguard/wg0.conf and replace all placeholder values.
+# Run: wg-quick up wg0
+
+[Interface]
+# Server's WireGuard private key — generate with: wg genkey
+PrivateKey = SERVER_PRIVATE_KEY_PLACEHOLDER
+
+# WireGuard tunnel address — 10.x.x.x range only
+Address = 10.0.0.1/24
+
+# WireGuard listens on port 51820 — this is the ONLY public port open on the server.
+# All other ports (3000 dashboard, 9090 prom, 9101/9102 WS) are 127.0.0.1-only.
+ListenPort = 51820
+
+# Enable IP forwarding and set up iptables rules
+PostUp   = iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+# ── Operator laptop (peer 1) ─────────────────────────────────────────────────
+[Peer]
+# Operator's WireGuard public key — generate with: wg pubkey < operator_private.key
+PublicKey = OPERATOR_PUBLIC_KEY_PLACEHOLDER
+
+# Restrict to single operator IP inside tunnel
+AllowedIPs = 10.0.0.2/32

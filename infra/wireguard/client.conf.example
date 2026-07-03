@@ -1,0 +1,23 @@
+# WireGuard client configuration — operator laptop
+# Copy to /etc/wireguard/wg0.conf on your laptop.
+# Run: wg-quick up wg0
+# Then open: http://10.0.0.1:3000 for the dashboard.
+
+[Interface]
+# Operator laptop private key — generate with: wg genkey
+PrivateKey = CLIENT_PRIVATE_KEY_PLACEHOLDER
+Address    = 10.0.0.2/24
+DNS        = 1.1.1.1
+
+[Peer]
+# Server public key — from server: wg pubkey < /etc/wireguard/server_private.key
+PublicKey  = SERVER_PUBLIC_KEY_PLACEHOLDER
+
+# Server's public IP (Equinix NY5 or co-location provider)
+Endpoint   = SERVER_PUBLIC_IP:51820
+
+# Route only the 10.0.0.0/24 tunnel network through WireGuard
+AllowedIPs = 10.0.0.0/24
+
+# Keep tunnel alive through NAT
+PersistentKeepalive = 25

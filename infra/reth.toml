@@ -1,0 +1,25 @@
+# Kestrel — reth.toml
+# 
+#
+# This file is a template.  Copy to the Reth data directory and adjust
+# paths to match your deployment.  See for the
+# manual setup procedure.
+#
+# After editing, verify with:
+#   cast block-number --rpc-url /var/run/reth/reth.ipc
+
+[network]
+discovery.addr = "0.0.0.0"
+
+[rpc]
+# HTTP enabled for fallback diagnostics only — bot ALWAYS uses IPC
+http = true
+# WebSocket enabled for Arbitrum / Base WS provider in multi-chain mode
+ws   = true
+# IPC socket — this is the primary transport.  Latency: ~0.1ms vs 1–50ms for RPC.
+ipc-path = "/var/run/reth/reth.ipc"
+
+[mempool]
+# 100k pending transactions — sized for a busy pending pool
+# subscribe_full_pending_transactions streams from this pool
+max-pending-txs = 100000

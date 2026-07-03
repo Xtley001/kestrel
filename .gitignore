@@ -1,0 +1,50 @@
+# ── Secrets — NEVER commit ────────────────────────────────────────────────────
+.env
+*.env
+.env.*
+!.env.example
+
+# ── Rust build artefacts ───────────────────────────────────────────────────────
+target/
+**/*.rs.bk
+
+# ── Node / Next.js ────────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+dashboard/.next/
+dashboard/node_modules/
+
+# ── Persistent state ──────────────────────────────────────────────────────────
+kestrel_state.db
+kestrel_state.db-shm
+kestrel_state.db-wal
+*.db
+*.db-shm
+*.db-wal
+
+# ── Foundry / Solidity ────────────────────────────────────────────────────────
+contracts/cache/
+contracts/out/
+
+# ── OS / editor ───────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── WireGuard private keys ─────────────────────────────────────────────────────
+infra/wireguard/*.conf
+!infra/wireguard/*.conf.example
+infra/wireguard/wg0.conf
+
+# Next.js / TS build artifacts
+dashboard/tsconfig.tsbuildinfo

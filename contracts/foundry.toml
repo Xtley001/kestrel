@@ -1,0 +1,30 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+test = "test"
+script = "script"
+solc = "0.8.24"
+optimizer = true
+optimizer_runs = 1000000
+via_ir = false
+
+remappings = [
+    "@balancer/=lib/balancer-v2-monorepo/pkg/interfaces/contracts/",
+    "@openzeppelin/=lib/openzeppelin-contracts/contracts/",
+]
+
+[profile.default.fuzz]
+runs = 1000
+
+[profile.default.invariant]
+runs = 256
+
+[rpc_endpoints]
+mainnet = "${RETH_IPC_PATH}"
+sepolia = "${SEPOLIA_RPC_URL}"
+arbitrum = "${ARB_WS_URL}"
+base = "${BASE_WS_URL}"
+
+[etherscan]
+mainnet = { key = "${ETHERSCAN_API_KEY}" }

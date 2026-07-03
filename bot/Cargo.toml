@@ -1,0 +1,12 @@
+[workspace]
+members = ["kestrel"]
+resolver = "2"
+
+# Required release profile — panic=abort prevents stack
+# unwinding (key material leak risk) in the hot path; lto=thin enables cross-crate
+# inlining for the revm simulation loop; codegen-units=1 maximises LLVM optimisation.
+[profile.release]
+opt-level     = 3
+lto           = "thin"
+codegen-units = 1
+panic         = "abort"

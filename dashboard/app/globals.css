@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── CSS custom properties ─────────────────────────────────────────────────── */
+:root {
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  /* Charcoal dark palette */
+  --bg-base:    #0d0f12;
+  --bg-surface: #141720;
+  --bg-raised:  #1c2030;
+  --bg-border:  #252a38;
+
+  --text-primary:   #e8ecf4;
+  --text-secondary: #8a93a8;
+  --text-muted:     #4a5268;
+
+  --accent-green:  #22c55e;
+  --accent-red:    #ef4444;
+  --accent-amber:  #f59e0b;
+  --accent-blue:   #3b82f6;
+  --accent-purple: #a855f7;
+}
+
+/* ── Base resets ───────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+}
+
+/* ── Scrollbar styling ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ── Typography utilities ──────────────────────────────────────────────────── */
+.font-mono {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum", "kern";
+}
+
+/* ── Card component ────────────────────────────────────────────────────────── */
+.card {
+  @apply bg-bg-surface border border-bg-border rounded-card p-4;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+}
+
+/* ── Profit glow pulse (active spread) ─────────────────────────────────────── */
+.glow-green {
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.2);
+}
+
+/* ── Spread badge colours ──────────────────────────────────────────────────── */
+.badge-green  { @apply bg-accent-green/10  text-accent-green  border border-accent-green/20; }
+.badge-amber  { @apply bg-accent-amber/10  text-accent-amber  border border-accent-amber/20; }
+.badge-red    { @apply bg-accent-red/10    text-accent-red    border border-accent-red/20; }
+.badge-purple { @apply bg-accent-purple/10 text-accent-purple border border-accent-purple/20; }
+.badge-muted  { @apply bg-bg-raised        text-text-muted    border border-bg-border; }
+
+/* ── Animated connection dot ───────────────────────────────────────────────── */
+.dot-connected    { @apply w-2 h-2 rounded-full bg-accent-green animate-pulse-slow; }
+.dot-connecting   { @apply w-2 h-2 rounded-full bg-accent-amber animate-pulse; }
+.dot-disconnected { @apply w-2 h-2 rounded-full bg-accent-red; }
+
+/* ── Hairline dividers ─────────────────────────────────────────────────────── */
+.divider { @apply border-t border-bg-border; }
+
+/* ── Number display ────────────────────────────────────────────────────────── */
+.stat-number {
+  @apply font-mono text-2xl font-semibold tracking-tight text-text-primary;
+}
+.stat-label {
+  @apply text-xs text-text-secondary uppercase tracking-wider;
+}

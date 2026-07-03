@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  bot:
+    name: Rust bot (build + test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: bot
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: bot
+      - name: Build
+        run: cargo build --workspace --locked
+      - name: Test
+        run: cargo test --workspace --locked
+
+  contracts:
+    name: Contracts (forge build + test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: contracts
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - name: Install dependencies
+        run: |
+          forge install --no-git \
+            OpenZeppelin/openzeppelin-contracts@v5.0.2 \
+            foundry-rs/forge-std
+      # Compiles src, scripts, AND tests. The test suite itself is fork-based
+      # (mainnet state) and runs against a node in operator environments — see README.
+      - name: Build
+        run: forge build
+
+  dashboard:
+    name: Dashboard (build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dashboard
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install
+      - name: Type-check
+        run: npm run type-check
+      - name: Build
+        run: npm run build
